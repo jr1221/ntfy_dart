@@ -32,7 +32,7 @@ class NtfyClient {
 
     try {
       return MessageResponse.fromJson(jsonDecode(response.body));
-    } catch (e, s) {
+    } catch (e) {
       try {
         throw NtfyApiError(response.statusCode, response,
             ServerErrorResponse.fromJson(jsonDecode(response.body)));
