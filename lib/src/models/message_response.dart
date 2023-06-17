@@ -12,6 +12,10 @@ class MessageResponse {
   @JsonKey(fromJson: _dateFromEpochSeconds)
   DateTime time;
 
+  /// Unix time stamp indicating when the message will be deleted, not set if Cache: no is sent
+  @JsonKey(fromJson: _dateFromEpochSeconds)
+  DateTime? expires;
+
   /// Message type, typically you'd be only interested in message
   EventTypes event;
 
@@ -48,6 +52,7 @@ class MessageResponse {
       required this.event,
       required this.topic,
       this.message,
+      this.expires,
       this.title,
       this.tags,
       this.priority,

@@ -26,6 +26,9 @@ class PublishableMessage {
   /// E-mail address for e-mail notifications
   String? email;
 
+  ///Phone number to use for [voice call](https://docs.ntfy.sh/publish/#phone-calls)
+  String? call;
+
   /// List of [tags](https://ntfy.sh/docs/publish/#tags-emojis) that may or not map to emojis
   List<String>? tags;
 
@@ -73,6 +76,7 @@ class PublishableMessage {
       this.filename,
       this.delay,
       this.email,
+      this.call,
       this.priority,
       this.actions,
       this.tags,

@@ -22,6 +22,7 @@ Map<String, dynamic> _$PublishableMessageToJson(PublishableMessage instance) {
   writeNotNull('filename', instance.filename);
   writeNotNull('delay', PublishableMessage._dateTimeToUnixTime(instance.delay));
   writeNotNull('email', instance.email);
+  writeNotNull('call', instance.call);
   writeNotNull('tags', instance.tags);
   writeNotNull('priority', _$PriorityLevelsEnumMap[instance.priority]);
   writeNotNull('actions', instance.actions);
