@@ -67,7 +67,7 @@ class MessageResponse {
   toString() => message ?? id;
 }
 
-@JsonSerializable(includeIfNull: false)
+@JsonSerializable(includeIfNull: false, createToJson: false)
 class Attachment {
   /// Name of the attachment, can be overridden with X-Filename, see [attachments](https://ntfy.sh/docs/publish/#attachments)
   String name;

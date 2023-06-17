@@ -155,9 +155,14 @@ class PublishableMessage {
     }
   }
 
-  /// [Authentication](https://ntfy.sh/docs/publish/#authentication)
+  /// [Username + password auth](https://docs.ntfy.sh/publish/?h=call#username-password)
   void addAuthentication({required String username, required String password}) {
     authorization = 'Basic ${base64Encode(('$username:$password').codeUnits)}';
+  }
+
+  /// [Acccess token auth (bearer)](https://docs.ntfy.sh/publish/?h=call#access-tokens)
+  void addTokenAuthentication({required String accessToken}) {
+    authorization = 'Bearer $accessToken';
   }
 
   Map<String, dynamic> toJson() => _$PublishableMessageToJson(this);

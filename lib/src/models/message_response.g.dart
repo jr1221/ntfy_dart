@@ -48,21 +48,3 @@ Attachment _$AttachmentFromJson(Map<String, dynamic> json) => Attachment(
       size: json['size'] as int?,
       expires: json['expires'] as int?,
     );
-
-Map<String, dynamic> _$AttachmentToJson(Attachment instance) {
-  final val = <String, dynamic>{
-    'name': instance.name,
-    'url': instance.url.toString(),
-  };
-
-  void writeNotNull(String key, dynamic value) {
-    if (value != null) {
-      val[key] = value;
-    }
-  }
-
-  writeNotNull('type', instance.type);
-  writeNotNull('size', instance.size);
-  writeNotNull('expires', instance.expires);
-  return val;
-}
