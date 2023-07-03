@@ -13,7 +13,7 @@ class MessageResponse {
   DateTime time;
 
   /// Unix time stamp indicating when the message will be deleted, not set if Cache: no is sent
-  @JsonKey(fromJson: _dateFromEpochSeconds)
+  @JsonKey(fromJson: _nullableDateFromEpochSeconds)
   DateTime? expires;
 
   /// Message type, typically you'd be only interested in message
@@ -43,6 +43,11 @@ class MessageResponse {
   Attachment? attachment;
 
   static DateTime _dateFromEpochSeconds(int seconds) {
+    return DateTime.fromMillisecondsSinceEpoch((seconds * 1000).round());
+  }
+
+  static DateTime? _nullableDateFromEpochSeconds(int? seconds) {
+    if (seconds == null) return null;
     return DateTime.fromMillisecondsSinceEpoch((seconds * 1000).round());
   }
 

@@ -13,7 +13,8 @@ MessageResponse _$MessageResponseFromJson(Map<String, dynamic> json) =>
       event: $enumDecode(_$EventTypesEnumMap, json['event']),
       topic: json['topic'] as String,
       message: json['message'] as String?,
-      expires: MessageResponse._dateFromEpochSeconds(json['expires'] as int),
+      expires: MessageResponse._nullableDateFromEpochSeconds(
+          json['expires'] as int?),
       title: json['title'] as String?,
       tags: (json['tags'] as List<dynamic>?)?.map((e) => e as String).toList(),
       priority: $enumDecodeNullable(_$PriorityLevelsEnumMap, json['priority']),

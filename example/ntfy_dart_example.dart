@@ -19,7 +19,7 @@ Future<void> main() async {
         'dart', // will render as an emoji on some platforms
       ],
       icon: Uri.parse('https://docs.ntfy.sh/static/img/ntfy.png'), // ntfy logo
-      delay: durationToDate(Duration(seconds: 15)));
+      delay: durationToDate(Duration(seconds: 10)));
 
   // Sent a message to the server, catching and printing any server error that may get sent back
   MessageResponse? message;
@@ -75,8 +75,8 @@ Future<void> main() async {
 
   // IMPORTANT: dispose of the client at the end of your usage to avoid hanging the process or leaving unneeded channels open with the ntfy server
   // this will break our stream, however, unless we do it after we terminate the stream.  Lets do this after the 20 seconds.
-  Future.delayed(Duration(seconds: 20)).then((value) {
-    listening.cancel();
+  Future.delayed(Duration(seconds: 20)).then((value) async {
+    await listening.cancel();
     client.close();
   });
 }
