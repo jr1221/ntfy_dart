@@ -11,3 +11,4 @@ pubspec.lock
 
 # IntelliJ
 .idea
+.vscode

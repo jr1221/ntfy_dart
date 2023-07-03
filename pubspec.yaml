@@ -1,6 +1,6 @@
 name: ntfy_dart
 description: A simple wrapper for the ntfy.sh API
-version: 0.1.2
+version: 0.1.3
 homepage: https://github.com/jr1221/ntfy_dart
 
 environment:
