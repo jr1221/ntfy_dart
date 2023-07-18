@@ -1,46 +1,47 @@
 import 'package:json_annotation/json_annotation.dart';
 import 'shared_model.dart';
+import 'package:equatable/equatable.dart';
 
 part 'message_response.g.dart';
 
 @JsonSerializable(includeIfNull: false, createToJson: false)
-class MessageResponse {
+class MessageResponse extends Equatable {
   /// Randomly chosen message identifier
-  String id;
+  final String id;
 
   /// Message date time, as Unix time stamp
   @JsonKey(fromJson: _dateFromEpochSeconds)
-  DateTime time;
+  final DateTime time;
 
   /// Unix time stamp indicating when the message will be deleted, not set if Cache: no is sent
   @JsonKey(fromJson: _nullableDateFromEpochSeconds)
-  DateTime? expires;
+  final DateTime? expires;
 
   /// Message type, typically you'd be only interested in message
-  EventTypes event;
+  final EventTypes event;
 
   /// Comma-separated list of topics the message is associated with; only one for all message events, but may be a list in open events
-  String topic;
+  final String topic;
 
   /// Message body; always present in message events
-  String? message;
+  final String? message;
 
   /// Message [title](https://ntfy.sh/docs/publish/#message-title); if not set defaults to ntfy.sh/<topic>
-  String? title;
+  final String? title;
 
   /// List of [tags](https://ntfy.sh/docs/publish/#tags-emojis) that may or not map to emojis
-  List<String>? tags;
+  final List<String>? tags;
 
   /// [Message priority](Website opened when notification is clicked)
-  PriorityLevels? priority;
+  final PriorityLevels? priority;
 
   /// Website opened when notification is [clicked](https://ntfy.sh/docs/publish/#click-action)
-  Uri? click;
+  final Uri? click;
 
   /// [Action buttons](https://ntfy.sh/docs/publish/#action-buttons) that can be displayed in the notification
-  List<Action>? actions;
+  final List<Action>? actions;
 
-  Attachment? attachment;
+  final Attachment? attachment;
 
   static DateTime _dateFromEpochSeconds(int seconds) {
     return DateTime.fromMillisecondsSinceEpoch((seconds * 1000).round());
@@ -69,25 +70,41 @@ class MessageResponse {
       _$MessageResponseFromJson(json);
 
   @override
-  toString() => message ?? id;
+  List<Object?> get props => [
+        id,
+        time,
+        event,
+        topic,
+        message,
+        expires,
+        title,
+        tags,
+        priority,
+        click,
+        actions,
+        attachment
+      ];
+
+  @override
+  bool get stringify => true;
 }
 
 @JsonSerializable(includeIfNull: false, createToJson: false)
-class Attachment {
+class Attachment extends Equatable {
   /// Name of the attachment, can be overridden with X-Filename, see [attachments](https://ntfy.sh/docs/publish/#attachments)
-  String name;
+  final String name;
 
   /// URL of the attachment
-  Uri url;
+  final Uri url;
 
   /// Mime type of the attachment, only defined if attachment was uploaded to ntfy server
-  String? type;
+  final String? type;
 
   /// Size of the attachment in bytes, only defined if attachment was uploaded to ntfy server
-  int? size;
+  final int? size;
 
   /// Attachment expiry date as Unix time stamp, only defined if attachment was uploaded to ntfy server
-  int? expires;
+  final int? expires;
 
   /// [Attachments](https://ntfy.sh/docs/publish/#attachments)
   Attachment(
@@ -99,6 +116,12 @@ class Attachment {
 
   factory Attachment.fromJson(Map<String, dynamic> json) =>
       _$AttachmentFromJson(json);
+
+  @override
+  List<Object?> get props => [name, url, type, size, expires];
+
+  @override
+  bool get stringify => true;
 }
 
 enum EventTypes {

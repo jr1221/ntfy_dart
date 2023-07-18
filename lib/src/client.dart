@@ -1,5 +1,6 @@
 import 'dart:convert';
 
+import 'package:equatable/equatable.dart';
 import 'package:http/http.dart' as http;
 
 import 'models/message_response.dart';
@@ -172,21 +173,21 @@ class NtfyApiError extends Error {
 }
 
 /// Filter messages via different parameters
-class FilterOptions {
+class FilterOptions extends Equatable {
   /// Only return messages that match this exact message ID
-  String? id;
+  final String? id;
 
   /// Only return messages that match this exact message string
-  String? message;
+  final String? message;
 
   /// Only return messages that match this exact title string
-  String? title;
+  final String? title;
 
   /// Only return messages that match any priority listed
-  List<PriorityLevels>? priority;
+  final List<PriorityLevels>? priority;
 
   /// Only return messages that match all listed tags
-  List<String>? tags;
+  final List<String>? tags;
 
   /// Filter messages via different parameters
   FilterOptions({this.id, this.message, this.title, this.priority, this.tags});
@@ -216,4 +217,10 @@ class FilterOptions {
 
     return queryParams;
   }
+
+  @override
+  List<Object?> get props => [id, message, title, priority, tags];
+
+  @override
+  bool get stringify => true;
 }

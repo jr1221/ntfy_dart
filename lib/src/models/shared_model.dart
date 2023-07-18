@@ -1,9 +1,10 @@
+import 'package:equatable/equatable.dart';
 import 'package:json_annotation/json_annotation.dart';
 
 part 'shared_model.g.dart';
 
 @JsonSerializable(includeIfNull: false)
-class Action {
+class Action extends Equatable {
   final ActionTypes action;
 
   final String label;
@@ -34,7 +35,11 @@ class Action {
   Map<String, dynamic> toJson() => _$ActionToJson(this);
 
   @override
-  toString() => label;
+  List<Object?> get props =>
+      [action, label, url, body, clear, intent, extras, method, headers];
+
+  @override
+  bool get stringify => true;
 }
 
 enum ActionTypes {

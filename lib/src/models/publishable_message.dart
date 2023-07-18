@@ -1,61 +1,63 @@
 import 'dart:convert';
 
+import 'package:equatable/equatable.dart';
 import 'package:json_annotation/json_annotation.dart';
 import 'shared_model.dart';
 
 part 'publishable_message.g.dart';
 
 @JsonSerializable(includeIfNull: false, createFactory: false)
-class PublishableMessage {
+/// Note: using helpers to add actions or authorizations may break equality, declare up front for objects needing ==
+class PublishableMessage extends Equatable{
   /// Target topic name
-  String topic;
+  final String topic;
 
   /// 	Message body; set to triggered if empty or not passed
-  String? message;
+  final String? message;
 
   /// [Message title](https://ntfy.sh/docs/publish/#message-title)
-  String? title;
+  final String? title;
 
   /// File name of the attachment
-  String? filename;
+  final String? filename;
 
   /// Timestamp for delayed delivery
   @JsonKey(toJson: _dateTimeToUnixTime)
-  DateTime? delay;
+  final DateTime? delay;
 
   /// E-mail address for e-mail notifications
-  String? email;
+  final String? email;
 
   ///Phone number to use for [voice call](https://docs.ntfy.sh/publish/#phone-calls)
-  String? call;
+  final String? call;
 
   /// List of [tags](https://ntfy.sh/docs/publish/#tags-emojis) that may or not map to emojis
-  List<String>? tags;
+  final List<String>? tags;
 
   /// [Message priority](https://ntfy.sh/docs/publish/#message-priority)
-  PriorityLevels? priority;
+  final PriorityLevels? priority;
 
   /// Custom [user action buttons](https://ntfy.sh/docs/publish/#action-buttons) for notifications
   List<Action>? actions;
 
   /// Website opened when notification is [clicked](https://ntfy.sh/docs/publish/#click-action)
-  Uri? click;
+  final Uri? click;
 
   /// URL of an attachment, see [attach via URL](https://ntfy.sh/docs/publish/#attach-file-from-url)
-  Uri? attach;
+  final Uri? attach;
 
   /// [Icon](https://ntfy.sh/docs/publish/#icons)
-  Uri? icon;
+  final Uri? icon;
 
   String? authorization;
 
   /// [Message caching](https://ntfy.sh/docs/publish/#message-caching)
   @JsonKey(toJson: _falseToNo)
-  bool? cache;
+  final bool? cache;
 
   /// [Disable Firebase](https://ntfy.sh/docs/publish/#disable-firebase)
   @JsonKey(toJson: _falseToNo)
-  bool? firebase;
+  final bool? firebase;
 
   static String? _falseToNo(bool? usedIn) {
     if (usedIn != null && !usedIn) return 'No';
@@ -168,5 +170,24 @@ class PublishableMessage {
   Map<String, dynamic> toJson() => _$PublishableMessageToJson(this);
 
   @override
-  toString() => message ?? topic;
+  List<Object?> get props => [
+        topic,
+        message,
+        title,
+        filename,
+        delay,
+        email,
+        call,
+        priority,
+        actions,
+        tags,
+        click,
+        attach,
+        icon,
+        cache,
+        firebase
+      ];
+
+  @override
+  bool get stringify => true;
 }
