@@ -7,8 +7,9 @@ import 'shared_model.dart';
 part 'publishable_message.g.dart';
 
 @JsonSerializable(includeIfNull: false, createFactory: false)
+
 /// Note: using helpers to add actions or authorizations may break equality, declare up front for objects needing ==
-class PublishableMessage extends Equatable{
+class PublishableMessage extends Equatable {
   /// Target topic name
   final String topic;
 

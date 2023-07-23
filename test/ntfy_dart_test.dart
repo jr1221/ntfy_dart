@@ -12,6 +12,12 @@ void main() {
         'Error: NTFY_SERVER_URL env var unset. Use --define=<KEY>=<VALUE> to set it!');
     return;
   }
+  if (RegExp(r"(((https|http)\:\/\/ntfy.sh)|ntfy.sh)", caseSensitive: false)
+      .hasMatch(String.fromEnvironment('NTFY_SERVER_URL'))) {
+    print(
+        'Error: NTFY_SERVER_URL cannot be the public ntfy.sh server. Please set a different server (like your own)!');
+    return;
+  }
   NtfyClient client = NtfyClient(
       basePath: Uri.parse(String.fromEnvironment('NTFY_SERVER_URL')));
 
@@ -36,7 +42,7 @@ void main() {
       final message = await client.publishMessage(PublishableMessage(
           topic: '${topicPrefix}poll', message: 'hello world'));
       final polled = await client.pollMessages(['${topicPrefix}poll']);
-      expect(message, equals(polled.first));
+      expect(message, equals(polled.last));
     });
 
     test('stream', () async {
@@ -46,6 +52,15 @@ void main() {
       final messageStreamed = await stream
           .firstWhere((element) => element.event == EventTypes.message);
       expect(message, equals(messageStreamed));
+    });
+
+    test('raw stream', () async {
+      final stream = await client.getRawStream(['${topicPrefix}stream']);
+      final message = await client.publishMessage(PublishableMessage(
+          topic: '${topicPrefix}stream', message: 'hello world'));
+      final messageStreamed =
+          await stream.firstWhere((element) => element != '\n');
+      expect('${message.message}\n', equals(messageStreamed));
     });
   });
 }
