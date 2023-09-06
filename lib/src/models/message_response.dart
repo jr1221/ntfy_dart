@@ -52,7 +52,7 @@ class MessageResponse extends Equatable {
     return DateTime.fromMillisecondsSinceEpoch((seconds * 1000).round());
   }
 
-  MessageResponse(
+  const MessageResponse(
       {required this.id,
       required this.time,
       required this.event,
@@ -107,7 +107,7 @@ class Attachment extends Equatable {
   final int? expires;
 
   /// [Attachments](https://ntfy.sh/docs/publish/#attachments)
-  Attachment(
+  const Attachment(
       {required this.name,
       required this.url,
       this.type,

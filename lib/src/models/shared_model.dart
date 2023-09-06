@@ -19,7 +19,8 @@ class Action extends Equatable {
 
   final MethodTypes? method;
 
-  Action(
+  /// See named constructors for options
+  const Action(
       {required this.action,
       required this.label,
       this.url,
@@ -29,6 +30,41 @@ class Action extends Equatable {
       this.extras,
       this.method,
       this.headers});
+
+  /// [Send HTTP Request](https://ntfy.sh/docs/publish/#send-http-request)
+  const Action.httpAction(
+      {required String label,
+      required Uri url,
+      MethodTypes? method,
+      Map<String, String>? headers,
+      String? body,
+      bool clear = false})
+      : this(
+            action: ActionTypes.http,
+            label: label,
+            body: body,
+            url: url,
+            clear: clear,
+            headers: headers,
+            method: method);
+
+  /// [Send android broadcast](https://ntfy.sh/docs/publish/#send-android-broadcast)
+  const Action.broadcastAction(
+      {required String label,
+      String? intent,
+      Map<String, String>? extras,
+      bool clear = false})
+      : this(
+            action: ActionTypes.broadcast,
+            label: label,
+            intent: intent,
+            extras: extras,
+            clear: clear);
+
+  /// [Open website/app](https://ntfy.sh/docs/publish/#open-websiteapp)
+  const Action.viewAction(
+      {required String label, required Uri url, bool clear = false})
+      : this(action: ActionTypes.view, label: label, url: url, clear: clear);
 
   factory Action.fromJson(Map<String, dynamic> json) => _$ActionFromJson(json);
 

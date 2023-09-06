@@ -39,7 +39,7 @@ class PublishableMessage extends Equatable {
   final PriorityLevels? priority;
 
   /// Custom [user action buttons](https://ntfy.sh/docs/publish/#action-buttons) for notifications
-  List<Action>? actions;
+  final List<Action>? actions;
 
   /// Website opened when notification is [clicked](https://ntfy.sh/docs/publish/#click-action)
   final Uri? click;
@@ -50,7 +50,7 @@ class PublishableMessage extends Equatable {
   /// [Icon](https://ntfy.sh/docs/publish/#icons)
   final Uri? icon;
 
-  String? authorization;
+  final String? authorization;
 
   /// [Message caching](https://ntfy.sh/docs/publish/#message-caching)
   @JsonKey(toJson: _falseToNo)
@@ -72,6 +72,7 @@ class PublishableMessage extends Equatable {
     return null;
   }
 
+  /// Default constructor (see authentication constructors for help on the authorization field)
   PublishableMessage(
       {required this.topic,
       this.message,
@@ -87,86 +88,50 @@ class PublishableMessage extends Equatable {
       this.attach,
       this.icon,
       this.cache,
-      this.firebase});
+      this.firebase,
+      this.authorization});
 
-  /// [Open website/app](https://ntfy.sh/docs/publish/#open-websiteapp)
-  void addViewAction(
-      {required String label, required Uri url, bool clear = false}) {
-    if (actions != null) {
-      actions?.add(Action(
-          action: ActionTypes.view, label: label, url: url, clear: clear));
-    } else {
-      actions = [
-        Action(action: ActionTypes.view, label: label, url: url, clear: clear)
-      ];
-    }
-  }
-
-  /// [Send android broadcast](https://ntfy.sh/docs/publish/#send-android-broadcast)
-  void addBroadcastAction(
-      {required String label,
-      String? intent,
-      Map<String, String>? extras,
-      bool clear = false}) {
-    if (actions != null) {
-      actions?.add(Action(
-          action: ActionTypes.broadcast,
-          label: label,
-          intent: intent,
-          extras: extras,
-          clear: clear));
-    } else {
-      actions = [
-        Action(
-            action: ActionTypes.broadcast,
-            label: label,
-            intent: intent,
-            extras: extras,
-            clear: clear)
-      ];
-    }
-  }
-
-  /// [Send HTTP Request](https://ntfy.sh/docs/publish/#send-http-request)
-  void addHttpAction(
-      {required String label,
-      required Uri url,
-      MethodTypes? method,
-      Map<String, String>? headers,
-      String? body,
-      bool clear = false}) {
-    if (actions != null) {
-      actions?.add(Action(
-          action: ActionTypes.http,
-          label: label,
-          url: url,
-          method: method,
-          headers: headers,
-          body: body,
-          clear: clear));
-    } else {
-      actions = [
-        Action(
-            action: ActionTypes.http,
-            label: label,
-            url: url,
-            method: method,
-            headers: headers,
-            body: body,
-            clear: clear)
-      ];
-    }
-  }
-
-  /// [Username + password auth](https://docs.ntfy.sh/publish/?h=call#username-password)
-  void addAuthentication({required String username, required String password}) {
-    authorization = 'Basic ${base64Encode(('$username:$password').codeUnits)}';
-  }
+  /// Construct message with [Username + password auth](https://docs.ntfy.sh/publish/?h=call#username-password)
+  PublishableMessage.withAuthentication(
+      {required this.topic,
+      this.message,
+      this.title,
+      this.filename,
+      this.delay,
+      this.email,
+      this.call,
+      this.priority,
+      this.actions,
+      this.tags,
+      this.click,
+      this.attach,
+      this.icon,
+      this.cache,
+      this.firebase,
+      required String username,
+      required String password})
+      : authorization =
+            'Basic ${base64Encode(('$username:$password').codeUnits)}';
 
   /// [Acccess token auth (bearer)](https://docs.ntfy.sh/publish/?h=call#access-tokens)
-  void addTokenAuthentication({required String accessToken}) {
-    authorization = 'Bearer $accessToken';
-  }
+  PublishableMessage.withTokenAuthentication(
+      {required this.topic,
+      this.message,
+      this.title,
+      this.filename,
+      this.delay,
+      this.email,
+      this.call,
+      this.priority,
+      this.actions,
+      this.tags,
+      this.click,
+      this.attach,
+      this.icon,
+      this.cache,
+      this.firebase,
+      required String accessToken})
+      : authorization = 'Bearer $accessToken';
 
   Map<String, dynamic> toJson() => _$PublishableMessageToJson(this);
 
@@ -186,7 +151,8 @@ class PublishableMessage extends Equatable {
         attach,
         icon,
         cache,
-        firebase
+        firebase,
+        authorization
       ];
 
   @override

@@ -18,7 +18,7 @@ class ServerErrorResponse extends Equatable {
   /// Link to relevant documentation
   final Uri? link;
 
-  ServerErrorResponse(
+  const ServerErrorResponse(
       {required this.code, required this.http, required this.error, this.link});
 
   factory ServerErrorResponse.fromJson(Map<String, dynamic> json) =>

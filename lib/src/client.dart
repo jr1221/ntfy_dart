@@ -190,7 +190,8 @@ class FilterOptions extends Equatable {
   final List<String>? tags;
 
   /// Filter messages via different parameters
-  FilterOptions({this.id, this.message, this.title, this.priority, this.tags});
+  const FilterOptions(
+      {this.id, this.message, this.title, this.priority, this.tags});
 
   Map<String, dynamic> filterQueryParams() {
     Map<String, dynamic> queryParams = {};

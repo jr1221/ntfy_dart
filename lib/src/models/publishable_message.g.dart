@@ -8,6 +8,7 @@ part of 'publishable_message.dart';
 
 Map<String, dynamic> _$PublishableMessageToJson(PublishableMessage instance) {
   final val = <String, dynamic>{
+    'hashCode': instance.hashCode,
     'topic': instance.topic,
   };
 
@@ -32,6 +33,8 @@ Map<String, dynamic> _$PublishableMessageToJson(PublishableMessage instance) {
   writeNotNull('authorization', instance.authorization);
   writeNotNull('cache', PublishableMessage._falseToNo(instance.cache));
   writeNotNull('firebase', PublishableMessage._falseToNo(instance.firebase));
+  val['props'] = instance.props;
+  val['stringify'] = instance.stringify;
   return val;
 }
 
