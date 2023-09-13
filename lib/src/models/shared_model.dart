@@ -71,11 +71,16 @@ class Action extends Equatable {
   Map<String, dynamic> toJson() => _$ActionToJson(this);
 
   @override
+  @JsonKey(includeToJson: false, includeFromJson: false)
   List<Object?> get props =>
       [action, label, url, body, clear, intent, extras, method, headers];
 
   @override
+  @JsonKey(includeToJson: false, includeFromJson: false)
   bool get stringify => true;
+
+  @JsonKey(includeToJson: false, includeFromJson: false)
+  int get hashcode => super.hashCode;
 }
 
 enum ActionTypes {

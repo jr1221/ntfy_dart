@@ -71,7 +71,7 @@ class PublishableMessage extends Equatable {
   }
 
   /// Default constructor (see authentication constructors for help on the authorization field)
-  PublishableMessage(
+  const PublishableMessage(
       {required this.topic,
       this.message,
       this.title,
@@ -112,7 +112,7 @@ class PublishableMessage extends Equatable {
             'Basic ${base64Encode(('$username:$password').codeUnits)}';
 
   /// [Acccess token auth (bearer)](https://docs.ntfy.sh/publish/?h=call#access-tokens)
-  PublishableMessage.withTokenAuthentication(
+  const PublishableMessage.withTokenAuthentication(
       {required this.topic,
       this.message,
       this.title,
@@ -134,6 +134,7 @@ class PublishableMessage extends Equatable {
   Map<String, dynamic> toJson() => _$PublishableMessageToJson(this);
 
   @override
+  @JsonKey(includeToJson: false)
   List<Object?> get props => [
         topic,
         message,
@@ -154,5 +155,9 @@ class PublishableMessage extends Equatable {
       ];
 
   @override
+  @JsonKey(includeToJson: false)
   bool get stringify => true;
+
+  @JsonKey(includeToJson: false)
+  int get hashcode => super.hashCode;
 }

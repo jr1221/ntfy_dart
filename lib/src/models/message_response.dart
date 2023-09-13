@@ -70,6 +70,7 @@ class MessageResponse extends Equatable {
       _$MessageResponseFromJson(json);
 
   @override
+  @JsonKey(includeFromJson: false)
   List<Object?> get props => [
         id,
         time,
@@ -86,7 +87,11 @@ class MessageResponse extends Equatable {
       ];
 
   @override
+  @JsonKey(includeFromJson: false)
   bool get stringify => true;
+
+  @JsonKey(includeFromJson: false)
+  int get hashcode => super.hashCode;
 }
 
 @JsonSerializable(includeIfNull: false, createToJson: false)
@@ -118,10 +123,15 @@ class Attachment extends Equatable {
       _$AttachmentFromJson(json);
 
   @override
+  @JsonKey(includeFromJson: false)
   List<Object?> get props => [name, url, type, size, expires];
 
   @override
+  @JsonKey(includeFromJson: false)
   bool get stringify => true;
+
+  @JsonKey(includeFromJson: false)
+  int get hashcode => super.hashCode;
 }
 
 enum EventTypes {

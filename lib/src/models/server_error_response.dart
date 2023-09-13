@@ -25,8 +25,13 @@ class ServerErrorResponse extends Equatable {
       _$ServerErrorResponseFromJson(json);
 
   @override
+  @JsonKey(includeFromJson: false)
   List<Object?> get props => [code, http, error, link];
 
   @override
+  @JsonKey(includeFromJson: false)
   bool get stringify => true;
+
+  @JsonKey(includeFromJson: false)
+  int get hashcode => super.hashCode;
 }
